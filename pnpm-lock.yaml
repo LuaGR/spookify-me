@@ -23,6 +23,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.13
         version: 3.4.13
+      two-up-element:
+        specifier: ^1.0.1
+        version: 1.0.1
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
@@ -1804,6 +1807,9 @@ packages:
     resolution: {integrity: sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow==}
     engines: {node: '>=14.19.0'}
 
+  pointer-tracker@2.5.3:
+    resolution: {integrity: sha512-LiJUeIbzk4dXq678YeyrZ++mdY17q4n/2sBHfU9wIuvmSzdiPgMvmvWN2g8mY4J7YwYOIrqrZUWP/MfFHVwYtg==}
+
   postcss-import@15.1.0:
     resolution: {integrity: sha512-hpr+J05B2FVYUAXHeK1YyI267J/dDDhMU6B6civm8hSY1jYJnBXxzKDKDswzJmtLHryrjhnDjqqp/49t8FALew==}
     engines: {node: '>=14.0.0'}
@@ -2163,6 +2169,9 @@ packages:
         optional: true
       typescript:
         optional: true
+
+  two-up-element@1.0.1:
+    resolution: {integrity: sha512-KjN4SBkOKeQ6LgZDOaxgnHyXV/VkmCXELeQSPs8GJUP8yFSqrH5pw9KxI/dny3pJdywe+ae+YiM4I/s91EGhOA==}
 
   type-fest@4.26.1:
     resolution: {integrity: sha512-yOGpmOAL7CkKe/91I5O3gPICmJNLJ1G4zFYVAsRHg7M64biSnPtRj0WNQt++bRkjYOqjWXrhnUw1utzmVErAdg==}
@@ -4444,6 +4453,8 @@ snapshots:
 
   pngjs@7.0.0: {}
 
+  pointer-tracker@2.5.3: {}
+
   postcss-import@15.1.0(postcss@8.4.47):
     dependencies:
       postcss: 8.4.47
@@ -4883,6 +4894,10 @@ snapshots:
       - supports-color
       - tsx
       - yaml
+
+  two-up-element@1.0.1:
+    dependencies:
+      pointer-tracker: 2.5.3
 
   type-fest@4.26.1: {}
 
