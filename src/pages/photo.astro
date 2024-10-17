@@ -12,11 +12,13 @@ console.log({ id, url })
 ---
 
 <Layout title='Cloudinary Photo'>
-  <main data-id={id}>
-    <header class='mb-28'>
-      <h1 class='text-5xl'>Edit your photo</h1>
+  <main
+    data-id={id}
+    class='flex flex-col gap-12 items-center'>
+    <header class='flex flex-col gap-12'>
+      <h1 class='text-5xl text-center'>Edit your photo</h1>
 
-      <section>
+      <section class='flex justify-between'>
         <button
           class='add'
           data-topic='ghost'>
@@ -52,6 +54,8 @@ console.log({ id, url })
     <div>
       <button class='download'> Descargar en Avif </button>
     </div>
+
+    <a href='/'>Volver a Home</a>
   </main>
 </Layout>
 
