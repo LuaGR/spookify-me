@@ -3,7 +3,7 @@ import { cldAssetsLoader } from 'astro-cloudinary/loaders'
 
 const images = defineCollection({
   loader: cldAssetsLoader({
-    limit: 3
+    limit: 4
   })
 })
 
