@@ -5,6 +5,9 @@ import Suggestions from '../components/photo/components/suggestions.astro'
 import Download from '../components/photo/components/download.astro'
 import CustomPrompt from '../components/photo/components/custom-prompt.astro'
 import { getCldImageUrl } from 'astro-cloudinary/helpers'
+import Alien from '../components/photo/icons/alien.astro'
+import Phantom from '../components/photo/icons/phantom.astro'
+import Zombie from '../components/photo/icons/zombie.astro'
 
 const { searchParams } = Astro.url
 const id = searchParams.get('id')
@@ -31,8 +34,44 @@ console.log({ id, url })
       </section>
 
       <section class='flex flex-col size-full gap-12 sm:gap-24 items-start'>
-        <CustomPrompt />
-        <Suggestions />
+        <CustomPrompt>
+          <input
+            type='text'
+            id='customPrompt'
+            placeholder='Add monsters to the background...'
+            class='border p-2 rounded-lg w-full bg-white/80 focus:border-purple-500 text-[#342042] outline-none'
+          />
+          <button
+            id='sendPrompt'
+            class='bg-[#f97c1e] px-4 py-2 rounded-lg hover:bg-orange-600'>
+            Apply
+          </button>
+        </CustomPrompt>
+
+        <Suggestions>
+          <section class='grid grid-cols-2 sm:flex justify-start w-full gap-4'>
+            <button
+              class='add bg-[#f97c1e] px-4 py-2 rounded-lg hover:bg-orange-600 flex items-center justify-center gap-2'
+              data-topic='ghost'>
+              Phantoms
+              <Phantom />
+            </button>
+
+            <button
+              class='add bg-[#f97c1e] px-4 py-2 rounded-lg hover:bg-orange-600 flex items-center gap-2 justify-center'
+              data-topic='zombies'>
+              Zombies
+              <Zombie />
+            </button>
+
+            <button
+              class='add bg-[#f97c1e] px-4 py-2 rounded-lg hover:bg-orange-600 flex items-center gap-2 justify-center'
+              data-topic='aliens'>
+              Aliens
+              <Alien />
+            </button>
+          </section>
+        </Suggestions>
       </section>
     </div>
     <footer class='flex justify-center items-center gap-8 p-6'>
@@ -53,11 +92,9 @@ console.log({ id, url })
       @keyframes fadeIn {
         0% {
           opacity: 0;
-          transform: translateY(20px);
         }
         100% {
           opacity: 1;
-          transform: translateY(0);
         }
       }
 
@@ -87,9 +124,7 @@ console.log({ id, url })
       const TOPICS: Record<string, string> = {
         ghost: 'Add scary ghosts to the background',
         zombies: 'Add zombies to the background',
-        devil: 'Add some devils to the background',
-        aliens: 'Add aliens to the background',
-        monsters: 'Add monsters to the background'
+        aliens: 'Add aliens to the background'
       } as const
 
       let selectedTopic = ''
