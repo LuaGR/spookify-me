@@ -5,8 +5,7 @@ import { getCollection } from 'astro:content'
 const images = await getCollection('images')
 ---
 
-<ul
-  class='grid grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] list-none place-items-center gap-4'>
+<ul class='grid grid-cols-1 sm:grid-cols-2 list-none place-items-center gap-8'>
   {
     images.map((image: any) => {
       return (
