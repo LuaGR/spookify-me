@@ -1,0 +1,30 @@
+---
+import { CldImage } from 'astro-cloudinary'
+import { getCollection } from 'astro:content'
+
+const images = await getCollection('images')
+---
+
+<ul
+  class='grid grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] list-none place-items-center gap-4'>
+  {
+    images.map((image: any) => {
+      return (
+        <li class='hover:animate-pulse'>
+          <a href={`/photo?id=${image.data.public_id}`}>
+            <CldImage
+              src={image.data.public_id}
+              width={250}
+              height={250}
+              class={`rounded-lg`}
+              crop={{
+                type: 'fill',
+                source: true
+              }}
+            />
+          </a>
+        </li>
+      )
+    })
+  }
+</ul>

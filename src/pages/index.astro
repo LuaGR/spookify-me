@@ -1,15 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro'
-import { CldUploadWidget, CldImage } from 'astro-cloudinary'
+import Header from '../components/home/header-home.astro'
+import Button from '../components/button.astro'
+import Album from '../components/home/album.astro'
 
-import { getCollection } from 'astro:content'
-const images = await getCollection('images')
+import { CldUploadWidget } from 'astro-cloudinary'
 ---
 
 <Layout title='SpookifyMe'>
-  <header class='mb-20'>
-    <h1 class='text-5xl'>SpookifyMe</h1>
-  </header>
+  <Header />
 
   <main class='mb-20'>
     <CldUploadWidget
@@ -20,43 +19,14 @@ const images = await getCollection('images')
         multiple: false,
         maxFiles: 1
       }}>
-      <button class='bg-gray-700 px-4 py-2 rounded-lg'>Upload</button>
+      <Button>Upload</Button>
     </CldUploadWidget>
   </main>
 
-  <section>
-    <ul>
-      {
-        images.map((image: any) => {
-          return (
-            <li>
-              <a href={`/photo?id=${image.data.public_id}`}>
-                <CldImage
-                  src={image.data.public_id}
-                  width={250}
-                  height={250}
-                  crop={{
-                    type: 'fill',
-                    source: true
-                  }}
-                />
-              </a>
-            </li>
-          )
-        })
-      }
-    </ul>
+  <section class='w-4/5 p-4 rounded-xl'>
+    <Album />
   </section>
 </Layout>
-
-<style>
-  ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
-    list-style: none;
-  }
-</style>
 
 <script>
   import { navigate } from 'astro:transitions/client'

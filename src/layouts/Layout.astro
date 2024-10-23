@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from 'astro:transitions'
+
 interface Props {
   title: string
 }
@@ -12,7 +14,7 @@ const { title } = Astro.props
     <meta charset='UTF-8' />
     <meta
       name='description'
-      content='Astro description'
+      content='Turn your photos into spooky Halloween versions with eerie effects and creepy backgrounds. Upload your image and get a haunting transformation instantly!'
     />
     <meta
       name='viewport'
@@ -27,12 +29,27 @@ const { title } = Astro.props
       name='generator'
       content={Astro.generator}
     />
+    <link
+      rel='preconnect'
+      href='https://fonts.googleapis.com'
+    />
+    <link
+      rel='preconnect'
+      href='https://fonts.gstatic.com'
+      crossorigin
+    />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap'
+      rel='stylesheet'
+    />
     <title>{title}</title>
+    <ViewTransitions />
   </head>
-  <body class='flex flex-col items-center p-8'>
+  <body class='flex flex-col items-center p-8 w-full main-background'>
     <slot />
-  </body>
-</html>
+  </body></html
+>
+
 <style is:global>
   :root {
     --accent: 136, 58, 234;
@@ -46,7 +63,9 @@ const { title } = Astro.props
     );
   }
   html {
-    font-family: system-ui, sans-serif;
+    font-family:
+      irish grover,
+      sans-serif;
     background: #13151a;
     color-scheme: dark light;
   }
@@ -60,5 +79,13 @@ const { title } = Astro.props
       Bitstream Vera Sans Mono,
       Courier New,
       monospace;
+  }
+  .main-background {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url('/plano.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
   }
 </style>

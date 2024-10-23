@@ -1,5 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro'
+import Header from '../components/photo/components/header-photo.astro'
+import Suggestions from '../components/photo/components/suggestions.astro'
+import Download from '../components/photo/components/download.astro'
+import CustomPrompt from '../components/photo/components/custom-prompt.astro'
 import { getCldImageUrl } from 'astro-cloudinary/helpers'
 
 const { searchParams } = Astro.url
@@ -12,58 +16,38 @@ console.log({ id, url })
 ---
 
 <Layout title='Cloudinary Photo'>
+  <Header />
+
   <main
     data-id={id}
-    class='flex flex-col gap-12 items-center'>
-    <header class='flex flex-col gap-12'>
-      <h1 class='text-5xl text-center'>Edit your photo</h1>
-
-      <section class='flex justify-between'>
-        <button
-          class='add'
-          data-topic='ghost'>
-          Add phantoms
-        </button>
-
-        <button
-          class='add'
-          data-topic='zombies'>
-          Add zombies
-        </button>
-
-        <button
-          class='add'
-          data-topic='devil'>
-          Add devil
-        </button>
+    class='w-full flex flex-col items-center justify-center gap-16 max-w-[1200px] p-12'>
+    <div class='grid grid-cols-1 md:grid-cols-2 gap-12 items-center w-full'>
+      <section class='flex justify-center items-center'>
+        <img
+          id='preview'
+          src={url}
+          class='size-80 max-w-full h-auto rounded-lg transition-opacity duration-300 ease-in-out'
+        />
       </section>
-    </header>
 
-    <img
-      id='preview'
-      src={url}
-      class='size-80'
-    />
-
-    <small>{url}</small>
-
-    <div>
-      <button class='download'> Descargar en Avif </button>
+      <section class='flex flex-col size-full gap-12 sm:gap-24 items-start'>
+        <CustomPrompt />
+        <Suggestions />
+      </section>
     </div>
 
-    <a href='/'>Volver a Home</a>
+    <footer class='flex justify-center items-center gap-8 p-6'>
+      <Download />
+      <a
+        href='/'
+        class='px-4 py-2 rounded-lg hover:bg-[#d9abe6] border whitespace-nowrap border-[#d9abe6]'
+        >Back to Home</a
+      >
+    </footer>
   </main>
 </Layout>
 
 <style>
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 12px;
-    transition: opacity 0.3s ease;
-  }
-
-  /* Adding the fade-in animation for the preview image */
   .fade-in {
     animation: fadeIn ease 1s;
     opacity: 1;
@@ -72,11 +56,17 @@ console.log({ id, url })
   @keyframes fadeIn {
     0% {
       opacity: 0;
-      transform: translateY(20px); /* Slight upward slide */
+      transform: translateY(20px);
     }
     100% {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
     }
   }
 </style>
@@ -90,19 +80,25 @@ console.log({ id, url })
   const downloadButton = document.querySelector(
     '.download'
   ) as HTMLButtonElement
+  const customPromptInput = document.getElementById(
+    'customPrompt'
+  ) as HTMLInputElement
+  const sendPromptButton = document.getElementById(
+    'sendPrompt'
+  ) as HTMLButtonElement
 
   const TOPICS: Record<string, string> = {
     ghost: 'Add scary ghosts to the background',
     zombies: 'Add zombies to the background',
     devil: 'Add some devils to the background',
-    custom: ''
+    aliens: 'Add aliens to the background',
+    monsters: 'Add monsters to the background'
   } as const
 
-  // Add animation classes
   function applyAnimation(image: HTMLImageElement) {
-    image.classList.remove('fade-in') // Reset the animation
-    void image.offsetWidth // Trigger reflow (required to restart animation)
-    image.classList.add('fade-in') // Apply the fade-in animation
+    image.classList.remove('fade-in')
+    void image.offsetWidth
+    image.classList.add('fade-in')
   }
 
   buttons.forEach((button) => {
@@ -112,18 +108,45 @@ console.log({ id, url })
 
       const url = getCldImageUrl({
         src: id,
-        replaceBackground: TOPICS[topic]
+        replaceBackground: TOPICS[topic],
+        brightness: '-30',
+        contrast: true,
+        vignette: '30',
+        blur: '200',
+        shadow: '50,x_-15,y_15'
       })
 
-      // Apply the effect with animation
-      preview.style.opacity = '.3' // Dim image
+      preview.style.opacity = '.3'
       preview.src = url
-      applyAnimation(preview) // Apply fade-in animation
+      applyAnimation(preview)
 
       preview.onload = () => {
         preview.style.opacity = '1'
       }
     })
+  })
+
+  sendPromptButton.addEventListener('click', (e) => {
+    const customPrompt = customPromptInput.value.trim()
+
+    if (customPrompt === '') return
+
+    const url = getCldImageUrl({
+      src: id,
+      replaceBackground: customPrompt,
+      contrast: true,
+      vignette: '30',
+      blur: '200',
+      shadow: '50,x_-15,y_15'
+    })
+
+    preview.style.opacity = '.3'
+    preview.src = url
+    applyAnimation(preview)
+
+    preview.onload = () => {
+      preview.style.opacity = '1'
+    }
   })
 
   downloadButton.addEventListener('click', (e) => {
